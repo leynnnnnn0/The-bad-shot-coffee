@@ -1,6 +1,6 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Tiny Bubbles Loyalty Program",
+  "short_name": "Tiny Bubbles",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

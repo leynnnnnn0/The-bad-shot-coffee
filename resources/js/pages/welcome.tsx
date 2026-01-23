@@ -1,21 +1,17 @@
+import { Head, router } from '@inertiajs/react';
+import { Download } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import first from '../../../public/images/1.jpg';
-import CoffeeArt from '../../../public/images/coffee-art-2d.png';
-import StepArt from '../../../public/images/loyalty-steps.png';
-import MainLogo from '../../../public/images/mainLogo.png';
-import {Head} from '@inertiajs/react';
 import third from '../../../public/images/3.jpg';
-
 import fourth from '../../../public/images/4.jpg';
-
 import fifth from '../../../public/images/5.jpg';
-
 import sixth from '../../../public/images/6.jpg';
-
 import seventh from '../../../public/images/7.jpg';
-
-import { router } from '@inertiajs/react';
 import eight from '../../../public/images/8.jpg';
-import menu1 from "../../../public/images/menu1.jpg";
+import CoffeeArt from '../../../public/images/coffee-art-2d.png';
+import MainLogo from '../../../public/images/mainLogo.png';
+import menu1 from '../../../public/images/menu1.jpg';
 import menu2 from '../../../public/images/menu2.jpg';
 import menu3 from '../../../public/images/menu3.jpg';
 import menu4 from '../../../public/images/menu4.jpg';
@@ -28,11 +24,83 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from '@/components/ui/carousel';
+
 export default function Welcome() {
+    const [platform, setPlatform] = useState<'ios' | 'android' | 'other'>(
+        'other',
+    );
+    const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+    useEffect(() => {
+        const userAgent = navigator.userAgent || navigator.vendor;
+
+        // Detect iOS devices
+        if (/iPad|iPhone|iPod/.test(userAgent)) {
+            setPlatform('ios');
+        }
+        // Detect Android devices
+        else if (/android/i.test(userAgent)) {
+            setPlatform('android');
+        }
+        // Other platforms
+        else {
+            setPlatform('other');
+        }
+
+        // Listen for PWA install prompt (for Android/Chrome)
+        const handleBeforeInstallPrompt = (e: Event) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+        };
+
+        window.addEventListener(
+            'beforeinstallprompt',
+            handleBeforeInstallPrompt,
+        );
+
+        return () => {
+            window.removeEventListener(
+                'beforeinstallprompt',
+                handleBeforeInstallPrompt,
+            );
+        };
+    }, []);
+
+    const handleDownload = async () => {
+        if (platform === 'ios') {
+            // For iOS - show instructions to add to home screen
+            toast.info(
+                'To install: Tap the Share button (...), then "Add to Home Screen"',
+                { duration: 6000 },
+            );
+        } else if (platform === 'android' && deferredPrompt) {
+            // For Android - trigger PWA install prompt
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+
+            if (outcome === 'accepted') {
+                toast.success('App installed successfully!');
+            }
+            setDeferredPrompt(null);
+        } else if (platform === 'android' && !deferredPrompt) {
+            // Android but PWA already installed or not available
+            toast.info(
+                'App is already installed or available through your browser menu',
+                { duration: 4000 },
+            );
+        } else {
+            // Desktop or other platforms
+            toast.info(
+                'Use Chrome or Edge on your mobile device to install this app',
+                { duration: 4000 },
+            );
+        }
+    };
+
     return (
         <>
             <Head>
-                {/* Favicon Links */}
+                {/* ... all your existing Head content ... */}
                 <link rel="icon" href="/favicon.ico" sizes="any" />
                 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
                 <link
@@ -44,7 +112,6 @@ export default function Welcome() {
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="manifest" href="/site.webmanifest" />
 
-                {/* Primary Meta Tags */}
                 <title>
                     Tiny Bubbles Loyalty Program - Digital Stamp Card & Rewards
                     | 2D Cafe CDO
@@ -62,13 +129,11 @@ export default function Welcome() {
                     content="Tiny Bubbles loyalty card, Tiny Bubbles stamp card, Tiny Bubbles rewards program, digital loyalty card CDO, coffee stamp card Cagayan de Oro, cafe loyalty program Philippines, stamp card rewards CDO, Tiny Bubbles digital stamps, coffee rewards Cagayan de Oro, bubble tea loyalty card, 2D cafe rewards, Tiny Bubbles perks, cafe stamp system CDO, loyalty rewards program, digital punch card cafe, Tiny Bubbles Tea Room loyalty, free coffee rewards CDO, customer loyalty program cafe, stamp collection rewards, QR code loyalty card"
                 />
 
-                {/* Canonical URL */}
                 <link
                     rel="canonical"
                     href="https://tinybubbles2dartcafe.stampbayan.com"
                 />
 
-                {/* Open Graph / Facebook */}
                 <meta property="og:type" content="website" />
                 <meta
                     property="og:url"
@@ -92,7 +157,6 @@ export default function Welcome() {
                 />
                 <meta property="og:locale" content="en_PH" />
 
-                {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta
                     name="twitter:url"
@@ -111,7 +175,6 @@ export default function Welcome() {
                     content="https://tinybubbles2dartcafe.stampbayan.com/images/twitter-image.jpg"
                 />
 
-                {/* Additional Meta Tags */}
                 <meta name="robots" content="index, follow" />
                 <meta name="language" content="English" />
                 <meta name="revisit-after" content="7 days" />
@@ -121,7 +184,6 @@ export default function Welcome() {
                 <meta name="geo.position" content="8.4542;124.6319" />
                 <meta name="ICBM" content="8.4542, 124.6319" />
 
-                {/* Structured Data - Local Business with Loyalty Program */}
                 <script type="application/ld+json">
                     {JSON.stringify({
                         '@context': 'https://schema.org',
@@ -192,7 +254,6 @@ export default function Welcome() {
                     })}
                 </script>
 
-                {/* Structured Data - Organization */}
                 <script type="application/ld+json">
                     {JSON.stringify({
                         '@context': 'https://schema.org',
@@ -215,7 +276,6 @@ export default function Welcome() {
                     })}
                 </script>
 
-                {/* Structured Data - Loyalty Program */}
                 <script type="application/ld+json">
                     {JSON.stringify({
                         '@context': 'https://schema.org',
@@ -255,6 +315,7 @@ export default function Welcome() {
                         className="h-10 w-auto grayscale"
                     />
                     <div className="flex gap-4 text-xs font-bold tracking-widest uppercase md:gap-8">
+                       
                         <button
                             onClick={() => router.get('/customer/login')}
                             className="cursor-pointer rounded-full border border-black px-5 py-2 transition-colors hover:bg-black hover:text-white"
@@ -277,12 +338,21 @@ export default function Welcome() {
                             Every cup tells a story. Join our circle and turn
                             your daily ritual into rewards.
                         </p>
-                        <button
-                            onClick={() => router.get('/customer/login')}
-                            className="cursor-pointer rounded-full bg-black px-12 py-4 font-bold text-white transition-all hover:shadow-xl active:scale-95"
-                        >
-                            Get Started
-                        </button>
+                        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
+                            <button
+                                onClick={() => router.get('/customer/login')}
+                                className="cursor-pointer rounded-full bg-black px-12 py-4 font-bold text-white transition-all hover:shadow-xl active:scale-95"
+                            >
+                                Get Started
+                            </button>
+                            <button
+                                onClick={handleDownload}
+                                className="flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black px-12 py-4 font-bold transition-all hover:bg-black hover:text-white active:scale-95"
+                            >
+                                <Download className="h-5 w-5" />
+                                Install App
+                            </button>
+                        </div>
                     </div>
                     <div className="relative flex flex-1 items-center justify-center">
                         <div className="absolute -z-10 h-[300px] w-[300px] rounded-full bg-gray-50 md:h-[450px] md:w-[450px]" />
@@ -341,7 +411,7 @@ export default function Welcome() {
                     </div>
                 </section>
 
-                {/* Section 2: How It Works - Improved Grid Layout */}
+                {/* Section 2: How It Works */}
                 <section className="bg-gray-50 px-6 py-24">
                     <div className="mx-auto max-w-7xl">
                         <div className="mb-16 text-center">
@@ -384,7 +454,6 @@ export default function Welcome() {
                                     <p className="leading-relaxed text-gray-500">
                                         {item.desc}
                                     </p>
-                                    {/* Decorative Accent */}
                                     <div className="mt-6 h-1 w-12 bg-black/5 transition-all group-hover:w-20 group-hover:bg-black" />
                                 </div>
                             ))}
@@ -392,7 +461,7 @@ export default function Welcome() {
                     </div>
                 </section>
 
-                {/* Section 3: The Gallery - Stylish Bento Grid */}
+                {/* Section 3: The Gallery */}
                 <section className="px-6 py-24">
                     <div className="mx-auto max-w-7xl">
                         <div className="mb-16 flex flex-col items-end justify-between gap-4 border-b border-black/5 pb-8 md:flex-row">
@@ -404,7 +473,6 @@ export default function Welcome() {
                             </p>
                         </div>
 
-                        {/* Stylish Asymmetric Grid (8 Images) */}
                         <div className="grid auto-rows-[200px] grid-cols-2 gap-3 md:grid-cols-4">
                             <div className="overflow-hidden rounded-sm bg-gray-100 md:col-span-2 md:row-span-2">
                                 <img
