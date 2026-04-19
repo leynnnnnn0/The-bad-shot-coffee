@@ -166,7 +166,7 @@ export default function Login({ business, status, isDemo }: LoginProps) {
                                 Don't have an acccount?{' '}
                                 <a
                                     className="underline"
-                                    href="/customer/register?business=VZScefuaxFHcIj6ZFfOG5uPjheM6uNqK"
+                                    href="/customer/register?business=Xo3jBje6aAsuBEpqxdS1MfanSSpMoZYD"
                                 >
                                     Register Here
                                 </a>
