@@ -7,7 +7,7 @@ import third from '../../../public/images/3.jpg';
 import fourth from '../../../public/images/4.jpg';
 import fifth from '../../../public/images/5.jpg';
 import sixth from '../../../public/images/6.jpg';
-import seventh from '../../../public/images/7.jpg';
+import seventh from '../../../public/images/2.jpg';
 import eight from '../../../public/images/8.jpg';
 import CoffeeArt from '../../../public/images/coffee-art-2d.png';
 import MainLogo from '../../../public/images/mainLogo.png';
@@ -34,62 +34,45 @@ export default function Welcome() {
     useEffect(() => {
         const userAgent = navigator.userAgent || navigator.vendor;
 
-        // Detect iOS devices
         if (/iPad|iPhone|iPod/.test(userAgent)) {
             setPlatform('ios');
-        }
-        // Detect Android devices
-        else if (/android/i.test(userAgent)) {
+        } else if (/android/i.test(userAgent)) {
             setPlatform('android');
-        }
-        // Other platforms
-        else {
+        } else {
             setPlatform('other');
         }
 
-        // Listen for PWA install prompt (for Android/Chrome)
         const handleBeforeInstallPrompt = (e: Event) => {
             e.preventDefault();
             setDeferredPrompt(e);
         };
 
-        window.addEventListener(
-            'beforeinstallprompt',
-            handleBeforeInstallPrompt,
-        );
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
         return () => {
-            window.removeEventListener(
-                'beforeinstallprompt',
-                handleBeforeInstallPrompt,
-            );
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         };
     }, []);
 
     const handleDownload = async () => {
         if (platform === 'ios') {
-            // For iOS - show instructions to add to home screen
             toast.info(
                 'To install: Tap the Share button (...), then "Add to Home Screen"',
                 { duration: 6000 },
             );
         } else if (platform === 'android' && deferredPrompt) {
-            // For Android - trigger PWA install prompt
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
-
             if (outcome === 'accepted') {
                 toast.success('App installed successfully!');
             }
             setDeferredPrompt(null);
         } else if (platform === 'android' && !deferredPrompt) {
-            // Android but PWA already installed or not available
             toast.info(
                 'App is already installed or available through your browser menu',
                 { duration: 4000 },
             );
         } else {
-            // Desktop or other platforms
             toast.info(
                 'Use Chrome or Edge on your mobile device to install this app',
                 { duration: 4000 },
@@ -100,142 +83,48 @@ export default function Welcome() {
     return (
         <>
             <Head>
-                {/* ... all your existing Head content ... */}
                 <link rel="icon" href="/favicon.ico" sizes="any" />
                 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-                <link
-                    rel="icon"
-                    type="image/png"
-                    sizes="96x96"
-                    href="/favicon-96x96.png"
-                />
+                <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="manifest" href="/site.webmanifest" />
 
                 <title>
-                    Tiny Bubbles Loyalty Program - Digital Stamp Card & Rewards
-                    | 2D Cafe CDO
+                    The Bad Shot Coffee — Loyalty Rewards Program | Bold Coffee, Strong Memories
                 </title>
                 <meta
                     name="title"
-                    content="Tiny Bubbles Digital Loyalty Card - Coffee Stamp Rewards Program Cagayan de Oro"
+                    content="The Bad Shot Coffee Digital Loyalty Card — Bold Coffee Rewards Program"
                 />
                 <meta
                     name="description"
-                    content="Join Tiny Bubbles digital loyalty program! Earn stamps with every purchase at CDO's first 2D art cafe. Get free drinks with our stamp card rewards system. No physical card needed - scan QR code to collect stamps and redeem rewards instantly."
+                    content="Join The Bad Shot Coffee loyalty program! Earn stamps with every purchase and unlock free drinks. Double espresso shots, specialty blends, croffles, and comfort food — all in a warm, modern café vibe. Scan, earn, and redeem rewards instantly."
                 />
                 <meta
                     name="keywords"
-                    content="Tiny Bubbles loyalty card, Tiny Bubbles stamp card, Tiny Bubbles rewards program, digital loyalty card CDO, coffee stamp card Cagayan de Oro, cafe loyalty program Philippines, stamp card rewards CDO, Tiny Bubbles digital stamps, coffee rewards Cagayan de Oro, bubble tea loyalty card, 2D cafe rewards, Tiny Bubbles perks, cafe stamp system CDO, loyalty rewards program, digital punch card cafe, Tiny Bubbles Tea Room loyalty, free coffee rewards CDO, customer loyalty program cafe, stamp collection rewards, QR code loyalty card"
-                />
-
-                <link
-                    rel="canonical"
-                    href="https://tinybubbles2dartcafe.stampbayan.com"
+                    content="The Bad Shot Coffee loyalty card, bad shot coffee stamp card, bad shot coffee rewards, digital loyalty card, coffee stamp card, cafe loyalty program Philippines, bold coffee rewards, specialty coffee loyalty, croffle cafe rewards, Spanish coffee loyalty card, double espresso cafe, neighborhood cafe loyalty program, coffee stamp rewards, digital punch card cafe, QR code loyalty card"
                 />
 
                 <meta property="og:type" content="website" />
-                <meta
-                    property="og:url"
-                    content="https://tinybubbles2dartcafe.stampbayan.com"
-                />
-                <meta
-                    property="og:title"
-                    content="Tiny Bubbles Digital Loyalty Card - Earn Stamps, Get Free Rewards"
-                />
+                <meta property="og:title" content="The Bad Shot Coffee — Digital Loyalty Card" />
                 <meta
                     property="og:description"
-                    content="Join our digital stamp card program at Tiny Bubbles 2D Art Cafe! Collect stamps with every purchase and unlock free drinks and exclusive rewards. Scan, earn, redeem - it's that easy!"
-                />
-                <meta
-                    property="og:image"
-                    content="https://tinybubbles2dartcafe.stampbayan.com/images/og-image.jpg"
-                />
-                <meta
-                    property="og:site_name"
-                    content="Tiny Bubbles 2D Art Cafe - Loyalty Rewards Program"
+                    content="Strong coffee, stronger rewards. Collect stamps at The Bad Shot Coffee and unlock free drinks, specialty blends, and exclusive perks."
                 />
                 <meta property="og:locale" content="en_PH" />
 
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta
-                    name="twitter:url"
-                    content="https://tinybubbles2dartcafe.stampbayan.com"
-                />
-                <meta
-                    name="twitter:title"
-                    content="Tiny Bubbles Digital Stamp Card - Coffee Loyalty Rewards"
-                />
-                <meta
-                    name="twitter:description"
-                    content="Earn stamps with every visit! Join Tiny Bubbles digital loyalty program at CDO's first 2D cafe. Collect stamps, unlock free drinks and exclusive rewards."
-                />
-                <meta
-                    name="twitter:image"
-                    content="https://tinybubbles2dartcafe.stampbayan.com/images/twitter-image.jpg"
-                />
-
                 <meta name="robots" content="index, follow" />
                 <meta name="language" content="English" />
-                <meta name="revisit-after" content="7 days" />
-                <meta name="author" content="Tiny Bubbles Tea Room" />
-                <meta name="geo.region" content="PH-MSR" />
-                <meta name="geo.placename" content="Cagayan de Oro City" />
-                <meta name="geo.position" content="8.4542;124.6319" />
-                <meta name="ICBM" content="8.4542, 124.6319" />
+                <meta name="author" content="The Bad Shot Coffee" />
 
                 <script type="application/ld+json">
                     {JSON.stringify({
                         '@context': 'https://schema.org',
                         '@type': 'CafeOrCoffeeShop',
-                        name: 'Tiny Bubbles 2D Art Cafe',
-                        image: 'https://tinybubbles2dartcafe.stampbayan.com/images/cafe-photo.jpg',
-                        url: 'https://tinybubbles2dartcafe.stampbayan.com',
-                        telephone: '0954 399 4175',
-                        priceRange: '₱100 - ₱300',
-                        servesCuisine: ['Coffee', 'Tea', 'Asian Fusion'],
-                        foundingDate: '2018',
-                        address: {
-                            '@type': 'PostalAddress',
-                            streetAddress: 'Cagayan de Oro City',
-                            addressLocality: 'Cagayan de Oro City',
-                            addressRegion: 'Misamis Oriental',
-                            postalCode: '9000',
-                            addressCountry: 'PH',
-                        },
-                        geo: {
-                            '@type': 'GeoCoordinates',
-                            latitude: 8.4542,
-                            longitude: 124.6319,
-                        },
-                        openingHoursSpecification: [
-                            {
-                                '@type': 'OpeningHoursSpecification',
-                                dayOfWeek: [
-                                    'Monday',
-                                    'Tuesday',
-                                    'Wednesday',
-                                    'Thursday',
-                                    'Friday',
-                                    'Saturday',
-                                ],
-                                opens: '10:00',
-                                closes: '22:00',
-                            },
-                            {
-                                '@type': 'OpeningHoursSpecification',
-                                dayOfWeek: 'Sunday',
-                                opens: '11:00',
-                                closes: '21:00',
-                            },
-                        ],
-                        sameAs: [
-                            'https://www.facebook.com/tinybubblestearoom',
-                            'https://www.instagram.com/tinybubblestearoom',
-                        ],
-                        acceptsReservations: 'False',
+                        name: 'The Bad Shot Coffee',
                         description:
-                            'The first 2D art cafe in Cagayan de Oro City offering specialty coffee, bubble tea, and delicious meals in a unique cartoon-style atmosphere. Join our digital loyalty program - earn stamps with every purchase and get free rewards! Scan our QR code to start collecting stamps today.',
+                            'Your go-to neighborhood café serving strong, flavorful coffee crafted with double espresso shots. Known for signature blends, creative specialty drinks, croffles, sandwiches, and rice meals. Join our digital loyalty program and earn stamps with every purchase.',
+                        servesCuisine: ['Coffee', 'Specialty Drinks', 'Comfort Food'],
                         hasOfferCatalog: {
                             '@type': 'OfferCatalog',
                             name: 'Loyalty Rewards Program',
@@ -253,72 +142,21 @@ export default function Welcome() {
                         },
                     })}
                 </script>
-
-                <script type="application/ld+json">
-                    {JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'Organization',
-                        name: 'Tiny Bubbles Tea Room',
-                        alternateName: 'Tiny Bubbles 2D Art Cafe',
-                        url: 'https://tinybubbles2dartcafe.stampbayan.com',
-                        logo: 'https://tinybubbles2dartcafe.stampbayan.com/images/logo.png',
-                        foundingDate: '2018',
-                        slogan: 'The 1st 2D spot in the heart of Cagayan de Oro City',
-                        contactPoint: {
-                            '@type': 'ContactPoint',
-                            contactType: 'Customer Service',
-                            availableLanguage: ['English', 'Filipino'],
-                        },
-                        sameAs: [
-                            'https://www.facebook.com/tinybubblestearoom',
-                            'https://www.instagram.com/tinybubblestearoom',
-                        ],
-                    })}
-                </script>
-
-                <script type="application/ld+json">
-                    {JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'LoyaltyProgram',
-                        name: 'Tiny Bubbles Digital Stamp Card',
-                        description:
-                            'Digital loyalty rewards program where customers earn stamps with every purchase and redeem for free drinks and exclusive perks at Tiny Bubbles 2D Art Cafe',
-                        programType: 'Stamp Card Rewards',
-                        provider: {
-                            '@type': 'Organization',
-                            name: 'Tiny Bubbles Tea Room',
-                        },
-                        hasOfferCatalog: {
-                            '@type': 'OfferCatalog',
-                            name: 'Stamp Rewards',
-                            itemListElement: [
-                                {
-                                    '@type': 'Offer',
-                                    itemOffered: {
-                                        '@type': 'Product',
-                                        name: 'Free Beverage Reward',
-                                        description:
-                                            'Earn stamps and redeem for free drinks',
-                                    },
-                                },
-                            ],
-                        },
-                    })}
-                </script>
             </Head>
-            <div className="min-h-screen bg-white font-sans text-black selection:bg-black selection:text-white">
+
+            <div className="min-h-screen bg-white font-sans text-black selection:bg-[#ff7118] selection:text-white">
+
                 {/* Navigation */}
-                <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-black/5 bg-white/80 p-6 backdrop-blur-md lg:px-20">
+                <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-black/5 bg-white/90 px-6 py-5 backdrop-blur-md lg:px-20">
                     <img
                         src={MainLogo}
-                        alt="Logo"
-                        className="h-10 w-auto grayscale"
+                        alt="The Bad Shot Coffee Logo"
+                        className="h-10 w-auto"
                     />
                     <div className="flex gap-4 text-xs font-bold tracking-widest uppercase md:gap-8">
-                       
                         <button
                             onClick={() => router.get('/customer/login')}
-                            className="cursor-pointer rounded-full border border-black px-5 py-2 transition-colors hover:bg-black hover:text-white"
+                            className="cursor-pointer rounded-full border border-[#ff7118] px-5 py-2 text-[#ff7118] transition-colors hover:bg-[#ff7118] hover:text-white"
                         >
                             Login
                         </button>
@@ -326,50 +164,87 @@ export default function Welcome() {
                 </nav>
 
                 {/* Hero Section */}
-                <main className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-12 px-6 py-16 lg:flex-row lg:py-24">
+                <main className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-12 px-6 py-16 lg:flex-row lg:py-28">
                     <div className="flex-1 space-y-8 text-center lg:text-left">
+                        {/* Eyebrow label */}
+                        <p className="inline-block rounded-full border border-[#ff7118]/30 px-4 py-1 text-xs font-bold tracking-[0.25em] text-[#ff7118] uppercase">
+                            Double Espresso. Always.
+                        </p>
+
                         <h1 className="font-serif text-6xl leading-tight tracking-tighter md:text-8xl">
-                            Brewed for <br />
-                            <span className="font-light text-gray-400 italic underline decoration-black/10">
-                                Loyalty.
+                            We Like It{' '}
+                            <span className="italic text-[#ff7118]">
+                                Strong.
                             </span>
                         </h1>
-                        <p className="mx-auto max-w-md text-lg leading-relaxed text-gray-600 lg:mx-0">
-                            Every cup tells a story. Join our circle and turn
-                            your daily ritual into rewards.
+
+                        <p className="mx-auto max-w-md text-lg leading-relaxed text-gray-500 lg:mx-0">
+                            Your go-to neighborhood café — bold coffee, creative
+                            specialty drinks, and comfort food favorites. Not
+                            just the coffee is strong. So are the memories.
                         </p>
+
                         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
                             <button
                                 onClick={() => router.get('/customer/login')}
-                                className="cursor-pointer rounded-full bg-black px-12 py-4 font-bold text-white transition-all hover:shadow-xl active:scale-95"
+                                className="cursor-pointer rounded-full bg-[#ff7118] px-12 py-4 font-bold text-white transition-all hover:bg-orange-500 hover:shadow-xl active:scale-95"
                             >
                                 Get Started
                             </button>
                             <button
                                 onClick={handleDownload}
-                                className="flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black px-12 py-4 font-bold transition-all hover:bg-black hover:text-white active:scale-95"
+                                className="flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black px-12 py-4 font-bold text-black transition-all hover:bg-black hover:text-white active:scale-95"
                             >
                                 <Download className="h-5 w-5" />
                                 Install App
                             </button>
                         </div>
                     </div>
+
                     <div className="relative flex flex-1 items-center justify-center">
-                        <div className="absolute -z-10 h-[300px] w-[300px] rounded-full bg-gray-50 md:h-[450px] md:w-[450px]" />
+                        <div className="absolute -z-10 h-[300px] w-[300px] rounded-full bg-orange-50 md:h-[450px] md:w-[450px]" />
+                        <div className="absolute -z-10 h-[200px] w-[200px] rounded-full bg-[#ff7118]/10 md:h-[300px] md:w-[300px]" />
                         <img
                             src={CoffeeArt}
-                            alt="2D Cafe Art"
-                            className="h-auto w-full max-w-[400px] object-contain"
+                            alt="The Bad Shot Coffee Art"
+                            className="h-auto w-full max-w-[400px] object-contain drop-shadow-2xl"
                         />
                     </div>
                 </main>
 
+                {/* About Strip */}
+                <section className="border-y border-black/5 bg-gray-50 px-6 py-16">
+                    <div className="mx-auto max-w-4xl text-center">
+                        <p className="text-xl leading-relaxed text-gray-500 md:text-2xl">
+                            From{' '}
+                            <span className="text-black">classic lattes</span>{' '}
+                            and{' '}
+                            <span className="text-black">Spanish coffee</span>{' '}
+                            to crowd-favorite{' '}
+                            <span className="text-[#ff7118] font-semibold">croffles</span>,{' '}
+                            sandwiches, and rice meals — every item is made to
+                            deliver both quality and value.
+                        </p>
+                        <div className="mt-8 flex flex-wrap justify-center gap-3 text-xs font-bold tracking-widest text-gray-500 uppercase">
+                            {['Specialty Coffee', 'Double Espresso', 'Croffles', 'Comfort Food', 'Events & Catering'].map((tag) => (
+                                <span
+                                    key={tag}
+                                    className="rounded-full border border-black/10 px-4 py-2"
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Featured Menu Carousel */}
                 <section className="bg-white px-6 py-24">
                     <div className="mx-auto max-w-7xl">
                         <div className="mb-12 text-center">
                             <h2 className="mb-4 font-serif text-5xl md:text-6xl">
                                 Featured{' '}
-                                <span className="text-gray-400 italic">
+                                <span className="text-[#ff7118] italic">
                                     Menu
                                 </span>
                             </h2>
@@ -379,46 +254,42 @@ export default function Welcome() {
                         </div>
 
                         <Carousel
-                            opts={{
-                                align: 'start',
-                                loop: true,
-                            }}
+                            opts={{ align: 'start', loop: true }}
                             className="w-full"
                         >
                             <CarouselContent className="-ml-2 md:-ml-4">
-                                {[menu1, menu2, menu3, menu4, menu5].map(
-                                    (img, index) => (
-                                        <CarouselItem
-                                            key={index}
-                                            className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/3"
-                                        >
-                                            <div className="group relative overflow-hidden rounded-2xl border border-black/5 bg-gray-50 p-1">
-                                                <div className="aspect-[3/4] overflow-hidden rounded-xl">
-                                                    <img
-                                                        src={img}
-                                                        alt={`Menu item ${index + 1}`}
-                                                        className="h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0"
-                                                    />
-                                                </div>
+                                {[menu1, menu2, menu3, menu4, menu5].map((img, index) => (
+                                    <CarouselItem
+                                        key={index}
+                                        className="pl-2 md:basis-1/2 md:pl-4 lg:basis-1/3"
+                                    >
+                                        <div className="group relative overflow-hidden rounded-2xl border border-black/5 bg-gray-50 p-1">
+                                            <div className="aspect-[3/4] overflow-hidden rounded-xl">
+                                                <img
+                                                    src={img}
+                                                    alt={`Menu item ${index + 1}`}
+                                                    className="h-full w-full object-cover transition-all duration-700 group-hover:scale-110"
+                                                />
                                             </div>
-                                        </CarouselItem>
-                                    ),
-                                )}
+                                        </div>
+                                    </CarouselItem>
+                                ))}
                             </CarouselContent>
-                            <CarouselPrevious className="left-0 -translate-x-1/2 border-black/10 bg-white hover:bg-black hover:text-white" />
-                            <CarouselNext className="right-0 translate-x-1/2 border-black/10 bg-white hover:bg-black hover:text-white" />
+                            <CarouselPrevious className="left-0 -translate-x-1/2 border-black/10 bg-white hover:bg-[#ff7118] hover:text-white hover:border-[#ff7118]" />
+                            <CarouselNext className="right-0 translate-x-1/2 border-black/10 bg-white hover:bg-[#ff7118] hover:text-white hover:border-[#ff7118]" />
                         </Carousel>
                     </div>
                 </section>
 
-                {/* Section 2: How It Works */}
+                {/* How It Works */}
                 <section className="bg-gray-50 px-6 py-24">
                     <div className="mx-auto max-w-7xl">
                         <div className="mb-16 text-center">
                             <h2 className="font-serif text-5xl md:text-6xl">
-                                Simple Steps. <br />
-                                <span className="text-gray-400">
-                                    Endless Perks for you.
+                                Simple Steps.{' '}
+                                <br />
+                                <span className="text-[#ff7118]">
+                                    Strong Rewards.
                                 </span>
                             </h2>
                         </div>
@@ -433,7 +304,7 @@ export default function Welcome() {
                                 {
                                     step: '02',
                                     title: 'Register',
-                                    desc: 'Create your profile in seconds to start tracking progress.',
+                                    desc: 'Create your profile in seconds to start tracking your stamps.',
                                 },
                                 {
                                     step: '03',
@@ -443,93 +314,90 @@ export default function Welcome() {
                             ].map((item, i) => (
                                 <div
                                     key={i}
-                                    className="group relative rounded-3xl border border-black/5 bg-white p-10 transition-all hover:-translate-y-1 hover:shadow-xl"
+                                    className="group relative rounded-3xl border border-black/5 bg-white p-10 transition-all hover:-translate-y-1 hover:border-[#ff7118]/20 hover:shadow-xl"
                                 >
-                                    <span className="mb-6 block font-serif text-6xl text-gray-100 transition-colors group-hover:text-black/10">
+                                    <span className="mb-6 block font-serif text-6xl text-black/5 transition-colors group-hover:text-[#ff7118]/20">
                                         {item.step}
                                     </span>
-                                    <h3 className="mb-3 text-xl font-bold tracking-tight uppercase">
+                                    <h3 className="mb-3 text-xl font-bold tracking-tight text-black uppercase">
                                         {item.title}
                                     </h3>
                                     <p className="leading-relaxed text-gray-500">
                                         {item.desc}
                                     </p>
-                                    <div className="mt-6 h-1 w-12 bg-black/5 transition-all group-hover:w-20 group-hover:bg-black" />
+                                    <div className="mt-6 h-1 w-12 bg-black/10 transition-all group-hover:w-20 group-hover:bg-[#ff7118]" />
                                 </div>
                             ))}
                         </div>
                     </div>
                 </section>
 
-                {/* Section 3: The Gallery */}
-                <section className="px-6 py-24">
+                {/* Events Banner */}
+                <section className="relative overflow-hidden bg-[#ff7118] px-6 py-24">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ffffff15_0%,_transparent_70%)]" />
+                    <div className="relative mx-auto max-w-4xl text-center">
+                        <p className="mb-4 text-xs font-bold tracking-[0.3em] text-white/70 uppercase">
+                            Events & Catering
+                        </p>
+                        <h2 className="mb-6 font-serif text-4xl leading-tight text-white md:text-6xl">
+                            Your Special Moments,{' '}
+                            <span className="italic underline decoration-white/30">Brewed to Perfection.</span>
+                        </h2>
+                        <p className="mx-auto mb-10 max-w-xl text-lg text-white/80">
+                            From weddings to celebrations, we bring the perfect coffee experience to your special moments — let us make your event unforgettable.
+                        </p>
+                        <a
+                            href='https://www.facebook.com/profile.php?id=100094777910500'
+                            target='_blank'
+                            className="cursor-pointer rounded-full border-2 border-white bg-white px-12 py-4 font-bold text-[#ff7118] transition-all hover:bg-transparent hover:text-white active:scale-95"
+                        >
+                            Book an Event
+                        </a>
+                    </div>
+                </section>
+
+                {/* Gallery */}
+                <section className="bg-white px-6 py-24">
                     <div className="mx-auto max-w-7xl">
                         <div className="mb-16 flex flex-col items-end justify-between gap-4 border-b border-black/5 pb-8 md:flex-row">
-                            <h2 className="font-serif text-5xl italic">
+                            <h2 className="font-serif text-5xl italic text-black">
                                 The Community
                             </h2>
                             <p className="text-xs font-bold tracking-[0.2em] text-gray-400 uppercase">
-                                @tinybubblestearoom
+                                @thebadshotcoffee
                             </p>
                         </div>
 
                         <div className="grid auto-rows-[200px] grid-cols-2 gap-3 md:grid-cols-4">
                             <div className="overflow-hidden rounded-sm bg-gray-100 md:col-span-2 md:row-span-2">
-                                <img
-                                    src={first}
-                                    className="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0"
-                                    alt="1"
-                                />
+                                <img src={first} className="h-full w-full object-cover  transition-all duration-700 hover:-0" alt="Community photo 1" />
                             </div>
                             <div className="overflow-hidden rounded-sm bg-gray-100">
-                                <img
-                                    src={third}
-                                    className="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0"
-                                    alt="2"
-                                />
+                                <img src={third} className="h-full w-full object-cover  transition-all duration-700 hover:-0" alt="Community photo 2" />
                             </div>
                             <div className="row-span-2 overflow-hidden rounded-sm bg-gray-100">
-                                <img
-                                    src={fourth}
-                                    className="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0"
-                                    alt="3"
-                                />
+                                <img src={fourth} className="h-full w-full object-cover  transition-all duration-700 hover:-0" alt="Community photo 3" />
                             </div>
                             <div className="overflow-hidden rounded-sm bg-gray-100">
-                                <img
-                                    src={fifth}
-                                    className="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0"
-                                    alt="4"
-                                />
+                                <img src={fifth} className="h-full w-full object-cover  transition-all duration-700 hover:-0" alt="Community photo 4" />
                             </div>
                             <div className="overflow-hidden rounded-sm bg-gray-100">
-                                <img
-                                    src={sixth}
-                                    className="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0"
-                                    alt="5"
-                                />
+                                <img src={sixth} className="h-full w-full object-cover  transition-all duration-700 hover:-0" alt="Community photo 5" />
                             </div>
                             <div className="overflow-hidden rounded-sm bg-gray-100 md:col-span-2">
-                                <img
-                                    src={seventh}
-                                    className="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0"
-                                    alt="6"
-                                />
+                                <img src={seventh} className="h-full w-full object-cover  transition-all duration-700 hover:-0" alt="Community photo 6" />
                             </div>
                             <div className="overflow-hidden rounded-sm bg-gray-100">
-                                <img
-                                    src={eight}
-                                    className="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0"
-                                    alt="7"
-                                />
+                                <img src={eight} className="h-full w-full object-cover  transition-all duration-700 hover:-0" alt="Community photo 7" />
                             </div>
                         </div>
                     </div>
                 </section>
 
+                {/* Footer */}
                 <footer className="border-t border-black/5 py-12 text-center">
                     <p className="text-[10px] tracking-[0.3em] uppercase opacity-40">
-                        Est. 2026 — Tiny Bubbles 2D Art Cafe
+                        The Bad Shot Coffee — Strong Coffee. Stronger Memories.
                     </p>
                 </footer>
             </div>

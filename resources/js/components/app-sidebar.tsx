@@ -14,7 +14,7 @@ import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { AwardIcon, BookOpen, Code2Icon, Folder, IdCard, LayoutGrid, QrCodeIcon, Stamp, StampIcon, StoreIcon, TicketIcon, Users2Icon } from 'lucide-react';
-import LOGO from '../../images/mainLogo.png';
+import LOGO from '../../images/secondaryLogo.png';
 
 const mainNavItems: NavItem[] = [
     {
